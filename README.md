@@ -31,4 +31,6 @@ java -jar app.jar IMG_FOLDER OUTPUT_FOLDER
 ![](./images/2.png)
 ![](./images/3.png)
 
-转换完成后可以发送文件到微信再逐一 **Add Sticker**。然后就可以使用微信发这些表情包啦。
+转换完成后可以发送文件到微信再逐一 **Add Sticker**，然后就可以使用微信发这些表情包了。看下图
+
+![](./images/4.png)
