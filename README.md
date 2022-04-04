@@ -1,6 +1,5 @@
-# 前言
-
-试用了好几个在线 jpg 转 gif 的网站，要么不免费，要么免费但并行转换的数量只有 2 个，需要注册提升并行转换数量等等，还有的甚至不能批量转换。遂根据我自己的需求（也比较简单）写了这个工具。
+> **前言**  
+> 试用了好几个在线 jpg 转 gif 的网站，要么不免费，要么免费但并行转换的数量只有 2 个，需要注册提升并行转换数量等等，还有的甚至不能批量转换。遂根据我自己的需求（也比较简单）写了这个工具。
 
 # jpg2gif
 
@@ -13,13 +12,13 @@
 使用 tg bot 获取表情的 `.zip` 压缩包。以下两个 bot 都可以
 
 - `@stickerset2packbot`
-- `@Stickerdownloadbot`
+- `@Stickerdownloadbot` (**更加推荐**)
 
 本项目适用于静态图片的表情，动态图片的表情建议使用 bot [@tgstogifbot](https://github.com/ed-asriyan/tgs-to-gif)。
 
-## 本项目使用
+## 用法
 
-下载 jar 包。执行
+本项目使用非常简单，下载 jar 包执行以下命令，然后就能在输出文件夹得到所有 `.gif` 图片
 
 ```
 java -jar app.jar IMG_FOLDER OUTPUT_FOLDER
