@@ -3,6 +3,8 @@
 
 # jpg2gif
 
+![downloads](https://img.shields.io/github/downloads/hellodk34/jpg2gif/v1.0/total) ![language](https://img.shields.io/badge/language-Java-green) ![MIT](https://img.shields.io/github/license/hellodk34/jpg2gif?style=plastic)
+
 - 把 telegram 导出的 jpg/jpeg/png 静态表情图片转换成微信能够导入的 `.gif` 文件
 - 输入一个文件夹路径，转换该文件夹下的所有 sticker 图片（不会递归查询子文件夹）
 - 输出一个文件夹路径，保存所有的 `.gif` 文件，可以全选拖动到微信聊天页，然后发送，等发送成功就可以「Add Sticker」了
