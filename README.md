@@ -7,7 +7,8 @@
 
 - 把 telegram 导出的 jpg/jpeg/png 静态表情图片转换成微信能够导入的 `.gif` 文件
 - 输入一个文件夹路径，转换该文件夹下的所有 sticker 图片（不会递归查询子文件夹）
-- 输出一个文件夹路径，保存所有的 `.gif` 文件，可以全选拖动到微信聊天页，然后发送，等发送成功就可以「Add Sticker」了
+- 输出一个文件夹路径，保存所有的 `.gif` 文件，可以全选拖动到微信聊天页，然后发送，等发送成功就能「Add Sticker」
+- [release v1.1](https://github.com/hellodk34/jpg2gif/releases/tag/v1.1) 支持保存透明背景的 gif 表情，请使用 png 图片作为图片源，欢迎测试，有问题请创建 issue
 
 ## 如何获取 telegram 表情 archive 档案？
 
