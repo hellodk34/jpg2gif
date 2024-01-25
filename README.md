@@ -1,6 +1,8 @@
 > **前言**  
 > 试用了好几个在线 jpg 转 gif 的网站，要么不免费，要么免费但并行转换的数量只有 2 个，需要注册提升并行转换数量等等，还有的甚至不能批量转换。遂根据我自己的需求（也比较简单）写了这个工具。
 
+**2024-01-25 16:44:06 重要提醒：v1.1 支持保存透明背景的 gif 表情，请使用 png 图片作为图片源。但是在部分图片下生成的 gif 图导入到微信后会出现画面异常（比如产生黑点），所以大部分场景下作者更推荐下载 v1.0 的 jar 包完成转换，请在 release 页下载 jar 包。**
+
 # jpg2gif
 
 ![downloads](https://img.shields.io/github/downloads/hellodk34/jpg2gif/total) ![language](https://img.shields.io/badge/language-Java-green) ![MIT](https://img.shields.io/github/license/hellodk34/jpg2gif?style=plastic)
