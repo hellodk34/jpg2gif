@@ -60,49 +60,27 @@ public class MainService {
 
 
         for (int i = 0; i < fileList.size(); i++) {
-                File tempFile = fileList.get(i);
-                String tempFileName = tempFile.getName();
+            File tempFile = fileList.get(i);
+            String tempFileName = tempFile.getName();
 
-                if (!tempFile.exists()) {
-                    logger.warning("File does not exist: " + tempFile.getAbsolutePath());
-                    continue; // Skip to the next file
-                }
+            if (!tempFile.exists()) {
+                logger.warning("File does not exist: " + tempFile.getAbsolutePath());
+                continue; // Skip to the next file
+            }
 
 
-                BufferedImage src = ImageIO.read(tempFile);
-                if (src == null) {
-                        logger.warning("Failed to read image: " + tempFile.getAbsolutePath());
-                        continue; // Skip to the next file
-                }
+            BufferedImage src = ImageIO.read(tempFile);
+            if (src == null) {
+                logger.warning("Failed to read image: " + tempFile.getAbsolutePath());
+                continue; // Skip to the next file
+            }
 
-                AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+            int lastDot = tempFileName.lastIndexOf('.');
+            String newFileName = tempFileName.substring(0, lastDot) + ".gif";
 
-                // 循环模式,0代表无限循环
-                gifEncoder.setRepeat(0);
+            ImgUtil.convert(FileUtil.file(tempFile.getAbsolutePath()), FileUtil.file(outputPath + "\\" + newFileName));
 
-                // 保留原图的 alpha channel 信息，设置 gif 背景图为透明
-                /**
-                * new rgba color
-                * red
-                * green
-                * blue
-                * alpha
-                * 255,255,255 是白色 效果差强人意(勉强使人满意)
-                */
-                int lastDot = tempFileName.lastIndexOf('.');
-                String newFileName = tempFileName.substring(0, lastDot) + ".gif";
-
-                gifEncoder.setTransparent(new Color(255, 255, 255, src.getColorModel().getTransparency()), true);
-
-                logger.info("current sequence is " + (i + 1) + " and output file name is " + newFileName);
-
-                gifEncoder.start(outputPath + "/" + newFileName);
-                gifEncoder.setDelay(100);
-
-                gifEncoder.addFrame(src);
-                gifEncoder.setDelay(100);
-
-                gifEncoder.finish();
+            logger.info("current sequence is " + (i + 1) + " and output file name is " + newFileName);
 
         }
     }
