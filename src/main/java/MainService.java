@@ -1,8 +1,6 @@
 import cn.hutool.core.img.ImgUtil;
-import cn.hutool.core.img.gif.AnimatedGifEncoder;
 import cn.hutool.core.io.FileUtil;
 import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
@@ -26,17 +24,17 @@ public class MainService {
 
     public static void main(String[] args) throws Exception {
         int length = args.length;
-        if (length != 2) {
-            logger.warning("wrong parameters! usage: java -jar app.jar IMG_FOLDER OUTPUT_FOLDER");
+        if (length != 3) {
+            logger.warning("wrong parameters! usage: java -jar app.jar IMG_FOLDER OUTPUT_FOLDER IS_RECURSIVE");
             return;
         }
 
         MainService mainService = new MainService();
-        mainService.jpg2gif(args[0], args[1]);
+        mainService.jpg2gif(args[0], args[1], args[2]);
 
     }
 
-    public void jpg2gif(String imgFolder, String outputFolder) throws Exception {
+    public void jpg2gif(String imgFolder, String outputFolder, String isRecursive) throws Exception {
         Path outputPath = Paths.get(outputFolder);
         if (!outputPath.toFile().exists()) {
             logger.warning("output folder not exist, please make directory first!");
@@ -51,7 +49,7 @@ public class MainService {
 
 
         List<File> fileList = new ArrayList<>();
-        processDirectory(imgPath.toFile(), fileList);
+        processDirectory(imgPath.toFile(), fileList, isRecursive);
 
         if (fileList.isEmpty()) {
             logger.warning("No image files found in the specified folder.");
@@ -86,14 +84,14 @@ public class MainService {
     }
 
 
-    private static void processDirectory(File directory, List<File> fileList) {
+    private static void processDirectory(File directory, List<File> fileList, String isRecursive) {
         File[] files = directory.listFiles();
         if (files != null) {
 
             for (File file : files) {
 
-                if (file.isDirectory()) {
-                    processDirectory(file, fileList);
+                if (file.isDirectory() && isRecursive.equalsIgnoreCase("Y")) {
+                    processDirectory(file, fileList,"Y");
                 } else if (isImageFile(file)) {
                     fileList.add(file);
                 }

@@ -26,8 +26,10 @@
 本项目使用非常简单，下载 jar 包执行以下命令，然后就能在输出文件夹得到所有 `.gif` 图片
 
 ```
-java -jar app.jar IMG_FOLDER OUTPUT_FOLDER
+java -jar app.jar IMG_FOLDER OUTPUT_FOLDER Y
 ```
+
+IMG_FOLDER 为输入文件夹路径，OUTPUT_FOLDER 为输出文件夹路径，Y 表示是否递归查询子文件夹，Y 为是，N 为否。
 
 下面是拿表情包 [ARU_full](https://t.me/addstickers/ARU_full) 举例
 
