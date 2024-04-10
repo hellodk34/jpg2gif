@@ -8,7 +8,7 @@
 ![downloads](https://img.shields.io/github/downloads/hellodk34/jpg2gif/total) ![language](https://img.shields.io/badge/language-Java-green) ![MIT](https://img.shields.io/github/license/hellodk34/jpg2gif?style=plastic)
 
 - 把 telegram 导出的 jpg/jpeg/png 静态表情图片转换成微信能够导入的 `.gif` 文件
-- 输入一个文件夹路径，转换该文件夹下的所有 sticker 图片（不会递归查询子文件夹）
+- 输入一个文件夹路径，转换该文件夹下的所有 sticker 图片
 - 输出一个文件夹路径，保存所有的 `.gif` 文件，可以全选拖动到微信聊天页，然后发送，等发送成功就能「Add Sticker」
 - [release v1.1](https://github.com/hellodk34/jpg2gif/releases/tag/v1.1) 支持保存透明背景的 gif 表情，请使用 png 图片作为图片源，欢迎测试，有问题请创建 issue
 
@@ -26,8 +26,10 @@
 本项目使用非常简单，下载 jar 包执行以下命令，然后就能在输出文件夹得到所有 `.gif` 图片
 
 ```
-java -jar app.jar IMG_FOLDER OUTPUT_FOLDER
+java -jar app.jar IMG_FOLDER OUTPUT_FOLDER Y
 ```
+
+IMG_FOLDER 为输入文件夹路径，OUTPUT_FOLDER 为输出文件夹路径，Y 表示是否递归查询子文件夹，Y 为是，N 为否。
 
 下面是拿表情包 [ARU_full](https://t.me/addstickers/ARU_full) 举例
 

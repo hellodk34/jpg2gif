@@ -1,11 +1,13 @@
-import cn.hutool.core.img.gif.AnimatedGifEncoder;
-
+import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FileUtil;
 import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author: hellodk
@@ -18,60 +20,90 @@ import java.nio.file.Paths;
 
 public class MainService {
 
+    private static final Logger logger = Logger.getLogger(MainService.class.getName());
+
     public static void main(String[] args) throws Exception {
         int length = args.length;
-        if (length != 2) {
-            System.out.println("wrong parameters! usage: java -jar app.jar IMG_FOLDER OUTPUT_FOLDER");
+        if (length != 3) {
+            logger.warning("wrong parameters! usage: java -jar app.jar IMG_FOLDER OUTPUT_FOLDER IS_RECURSIVE");
             return;
         }
+
         MainService mainService = new MainService();
-        mainService.jpg2gif(args[0], args[1]);
+        mainService.jpg2gif(args[0], args[1], args[2]);
 
     }
 
-    public void jpg2gif(String imgFolder, String outputFolder) throws Exception {
+    public void jpg2gif(String imgFolder, String outputFolder, String isRecursive) throws Exception {
         Path outputPath = Paths.get(outputFolder);
         if (!outputPath.toFile().exists()) {
-            System.out.println("output folder not exist, please make directory first!");
+            logger.warning("output folder not exist, please make directory first!");
             return;
         }
 
         Path imgPath = Paths.get(imgFolder);
-        File file = new File(String.valueOf(imgPath));
         if (!imgPath.toFile().exists()) {
-            System.out.println("image folder not exist, please check your input.");
+            logger.warning("image folder not exist, please check your input.");
             return;
         }
-        File[] tempList = file.listFiles();
-        if (tempList != null && tempList.length > 0) {
-            for (int i = 0; i < tempList.length; i++) {
-                // TODO 处理一下图片的 alpha channel 问题，保存原本的透明背景
-                File tempFile = tempList[i];
-                String tempFileName = tempFile.getName();
-                BufferedImage src = ImageIO.read(tempFile);
-                AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
-                // 循环模式,0代表无限循环
-                gifEncoder.setRepeat(0);
 
-                // 保留原图的 alpha channel 信息，设置 gif 背景图为透明
-                /**
-                 * new rgba color
-                 * red
-                 * green
-                 * blue
-                 * alpha
-                 * 255,255,255 是白色 效果差强人意(勉强使人满意)
-                 */
-                gifEncoder.setTransparent(new Color(255, 255, 255, src.getColorModel().getTransparency()), true);
-                int lastDot = tempFileName.lastIndexOf('.');
-                String newFileName = tempFileName.substring(0, lastDot) + ".gif";
-                System.out.println("current sequence is " + (i + 1) + " and output file name is " + newFileName);
-                gifEncoder.start(outputPath + "/" + newFileName);
-                gifEncoder.setDelay(100);
-                gifEncoder.addFrame(src);
-                gifEncoder.setDelay(100);
-                gifEncoder.finish();
+
+        List<File> fileList = new ArrayList<>();
+        processDirectory(imgPath.toFile(), fileList, isRecursive);
+
+        if (fileList.isEmpty()) {
+            logger.warning("No image files found in the specified folder.");
+            return;
+        }
+
+
+        for (int i = 0; i < fileList.size(); i++) {
+            File tempFile = fileList.get(i);
+            String tempFileName = tempFile.getName();
+
+            if (!tempFile.exists()) {
+                logger.warning("File does not exist: " + tempFile.getAbsolutePath());
+                continue; // Skip to the next file
             }
+
+
+            BufferedImage src = ImageIO.read(tempFile);
+            if (src == null) {
+                logger.warning("Failed to read image: " + tempFile.getAbsolutePath());
+                continue; // Skip to the next file
+            }
+
+            int lastDot = tempFileName.lastIndexOf('.');
+            String newFileName = tempFileName.substring(0, lastDot) + ".gif";
+
+            ImgUtil.convert(FileUtil.file(tempFile.getAbsolutePath()), FileUtil.file(outputPath + "\\" + newFileName));
+
+            logger.info("current sequence is " + (i + 1) + " and output file name is " + newFileName);
+
         }
     }
+
+
+    private static void processDirectory(File directory, List<File> fileList, String isRecursive) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+
+            for (File file : files) {
+
+                if (file.isDirectory() && isRecursive.equalsIgnoreCase("Y")) {
+                    processDirectory(file, fileList,"Y");
+                } else if (isImageFile(file)) {
+                    fileList.add(file);
+                }
+
+            }
+
+        }
+    }
+
+    private static boolean isImageFile(File file) {
+        String fileName = file.getName().toLowerCase();
+        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");
+    }
+
 }
